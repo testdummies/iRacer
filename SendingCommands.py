@@ -13,9 +13,8 @@ class BluetoothCar:
 
     def drive(self,duration):
         print "sending command now"
-        self.socket.send('\x15')
+        self.socket.send('\x55')
         time.sleep(duration)
-
 
 if __name__ == "__main__":
     car = BluetoothCar()
