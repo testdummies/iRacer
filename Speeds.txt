@@ -1,0 +1,14 @@
+Speeds that are reliable:
+F
+E
+D
+C
+B
+A
+9
+8
+7
+6
+
+Unreliable:
+1-5
