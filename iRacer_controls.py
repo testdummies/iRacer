@@ -149,13 +149,15 @@ def combine_inputs(dir_hex, speed_hex):
         print "command_in_hex: " + str(command_in_hex)
     return command_in_hex
 #---------------------------------------------------------------------
+
+
+#---------------------------------------------------------------------
+#SHOULD MOVE THIS TO OTHER MODULE - math or miscellaneous or something
 #---------------------------------------------------------------------
 # Name:       int_to_hex(int_value)
 # Arguments:  int_value = integer value
 # Purpose:    Converts integer to hexadecimal byte in '\x00' format
 # Example:    int_value = 0 converted = '\x00'
-
-
 def int_to_hex(int_value):
     converted = struct.pack('1B', int_value)
     if debugging:
