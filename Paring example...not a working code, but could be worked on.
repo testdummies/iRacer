@@ -1,0 +1,21 @@
+import socket
+import sys
+
+# Discovering devices
+def pair_Bluetooth():
+
+    address, services = socket.bt_discover(mac_addr, pin_num)
+    print "Chosen devices:", address, services
+
+for i,j in addresses:
+      counter+=1
+
+print "%d) %s - %s" % (counter,i,j)
+
+  mac_addr = raw_input("\n\nPlease select a device: ")
+  selected_device =str(addresses[int(mac_addr) - 1][0])
+
+  pin_num = raw_input ("Enter pin")
+  if pin_num == input:
+      
+print "Please wait, pairing with %s" % i
