@@ -1,4 +1,5 @@
 import iRacer_bluetooth
+import iRacer_recorder #recorder to be used for recording movements
 import time
 import struct
 
@@ -79,9 +80,24 @@ Speed[10] = '\x0F'
 
 def car_drive(command, duration):
     # takes combined input for direction/speed and makes car drive
+    check_recording_status() # CHECK IF IT DOES NOT BREAK
     iRacer_bluetooth.send_command(command)
     time.sleep(duration)  # gives sleep of 50 miliseconds
     car_stop()
+
+def check_recording_status(): # CHECK IF IT DOES NOT BREAK
+    if iRacer_recorder.car_recorder: #if recorder is on record
+        iRacer_recorder.recorder(command, duration, timestamp) # generate values for recording
+    if iRacer_recorder.car_player:
+        iRacer_recorder.player() # generate values for recording
+
+
+def car_record(command, duration): # CHECK IF IT DOES NOT BREAK
+    timestamp = "temp value"
+    iRacer_recorder.record(command, duration, timestamp) # to be sent to recorder.
+
+def car_play(): # CHECK IF IT DOES NOT BREAK
+    iRacer_recorder.play() # exeecutes saved recording
 
 
 def car_stop():
@@ -99,7 +115,6 @@ def select_action(pressed_keys_list):
 
 def chose_inputs(direction, speed):
     print "chose_inputs"
-
 
 
 # Name:       speed_lookup(inputValue):
