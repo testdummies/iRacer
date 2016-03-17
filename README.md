@@ -6,4 +6,6 @@ Files up to date (so far) in Testing.
 
 
 
-GO TO NOTMODULESYET TO WORK ON CODE SNIPPETS AND NOT iRacer_modules.
+GO TO NotModulesYet 
+TO WORK ON CODE SNIPPETS,
+Keep main directory for iRacer_modules.
