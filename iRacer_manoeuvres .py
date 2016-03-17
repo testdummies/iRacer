@@ -18,248 +18,90 @@ def controls(direction,speed,time):
 #Should end up facing 180 degrees on oposite side of the "Road"
 def three_point_turn_right():
 
-    #Give the stop signal to try and sync the bluetooth before sending
-    #the actual movement commands to try and make it more consistant
-    time = 2
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes right forward for 2.4 seconds at speed 2
-    time = 2.4
-    speed = 2
-    direction = "Dir_RF"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes left back for 1.6 seconds
-    time = 1.6
-    speed = 2
-    direction = "Dir_LB"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes right forward for 1.48 seconds
-    time = 1.48
-    speed = 2
-    direction = "Dir_RF"
-    controls(direction,speed,time)
+    #Combined all settings to sequence lists
+    sq_time = [2,2.4,1,1.6,1,1.48] #sequence time etc.
+    sq_speed = [2,2,2,2,2,2]
+    sq_direction = ["Dir_Stop","Dir_RF","Dir_Stop","Dir_LB","Dir_Stop","Dir_RF"]
+    #for each item in sequence, call method with corresponding values
+    for i in sq_time:
+        controls(sq_direction[i],sq_speed[i],sq_time[i])
 
 #Three point turn to left hand side using 3 main movements,
 #Should end up facing 180 degrees on oposite side of the "Road"
 def three_point_turn_left():
 
-    #Give the stop signal to try and sync the bluetooth before sending
-    #the actual movement commands to try and make it more consistant
-    time = 2
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
+    #Combined all settings to sequence lists
+    sq_time = [2,2,1,2,1,1.4] #sequence time etc.
+    sq_speed = [2,2,2,2,2,2]
+    sq_direction = ["Dir_Stop","Dir_LF","Dir_Stop","Dir_RB","Dir_Stop","Dir_LF"]
+    #for each item in sequence, call method with corresponding values
+    for i in sq_time:
+        controls(sq_direction[i],sq_speed[i],sq_time[i])
 
-    #Goes left forward for 2 seconds
-    time = 2
-    speed = 2
-    direction = "Dir_LF"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes right back for 2 seconds
-    time = 2
-    speed = 2
-    direction = "Dir_RB"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes left forward for 1.4 seconds
-    time = 1.4
-    speed = 2
-    direction = "Dir_LF"
-    controls(direction,speed,time)
 
 #Parallel park to right hand side using 3 turning movements to achieve it
 def parralel_parking_right_side():
 
-    #Give the stop signal to try and sync the bluetooth before sending
-    #the actual movement commands to try and make it more consistant
-    time = 2
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
+    #Combined all settings to sequence lists
+    sq_time = [2,1.3,1,1.1,1,0.6,1,0.3] #sequence time etc.
+    sq_speed = [2,2,2,2,2,2,2,2]
+    sq_direction = ["Dir_Stop","Dir_RB","Dir_Stop","Dir_LB","Dir_Stop","Dir_RF","Dir_Stop","Dir_SF"]
+    #for each item in sequence, call method with corresponding values
+    for i in sq_time:
+        controls(sq_direction[i],sq_speed[i],sq_time[i])
 
-    #Goes right back for 1.3 seconds
-    time = 1.3
-    speed = 2
-    direction = "Dir_RB"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes left back for 1.1 seconds
-    time = 1.1
-    speed = 2
-    direction = "Dir_LB"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes right forward for 0.6 seconds
-    time = 0.6
-    speed = 2
-    direction = "Dir_RF"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes Straight forward for 0.3 seconds (just to get closer to a real parallel park)
-    time = 0.3
-    speed = 2
-    direction = "Dir_SF"
-    controls(direction,speed,time)
 
 #Parallel park to left hand side using 3 turning movements to achieve it
 def parralel_parking_left_side():
 
-    #Give the stop signal to try and sync the bluetooth before sending
-    #the actual movement commands to try and make it more consistant
-    time = 2
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes left back for 1.5 seconds
-    time = 1.5
-    speed = 2
-    direction = "Dir_LB"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes right back for 1 second
-    time = 1
-    speed = 2
-    direction = "Dir_RB"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes left forward for 0.7 seconds
-    time = 0.7
-    speed = 2
-    direction = "Dir_LF"
-    controls(direction,speed,time)
-
-    #Stops for one second after last command (seems to increase consistancy)
-    time = 1
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Goes Straight forward for 0.3 seconds (just to get closer to a real parallel park)
-    time = 0.3
-    speed = 2
-    direction = "Dir_SF"
-    controls(direction,speed,time)
+    #Combined all settings to sequence lists
+    sq_time = [2,1.5,1,1,1,0.7,1,0.3] #sequence time etc.
+    sq_speed = [2,2,2,2,2,2,2,2]
+    sq_direction = ["Dir_Stop","Dir_LB","Dir_Stop","Dir_RB","Dir_Stop","Dir_LF","Dir_Stop","Dir_SF"]
+    #for each item in sequence, call method with corresponding values
+    for i in sq_time:
+        controls(sq_direction[i],sq_speed[i],sq_time[i])
 
 #180 turn going to left with 1 long movement
 def turn_around_left():
 
-    #Give the stop signal to try and sync the bluetooth before sending
-    #the actual movement commands to try and make it more consistant
-    time = 2
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Go left forward 5.5 seconds till facing 180 degreess
-    time = 5.5
-    speed = 2
-    direction = "Dir_LF"
-    controls(direction,speed,time)
+    #Combined all settings to sequence lists
+    sq_time = [2,5.5] #sequence time etc.
+    sq_speed = [2,2]
+    sq_direction = ["Dir_Stop","Dir_LF"]
+    #for each item in sequence, call method with corresponding values
+    for i in sq_time:
+        controls(sq_direction[i],sq_speed[i],sq_time[i])
 
 #180 turn going to right with 1 long movement
 def turn_around_right():
 
-    #Give the stop signal to try and sync the bluetooth before sending
-    #the actual movement commands to try and make it more consistant
-    time = 2
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Go right forward for 5 seconds till facing 180 degrees
-    time = 5
-    speed = 2
-    direction = "Dir_RF"
-    controls(direction,speed,time)
+    #Combined all settings to sequence lists
+    sq_time = [2,5] #sequence time etc.
+    sq_speed = [2,2]
+    sq_direction = ["Dir_Stop","Dir_RF"]
+    #for each item in sequence, call method with corresponding values
+    for i in sq_time:
+        controls(sq_direction[i],sq_speed[i],sq_time[i])
 
 #360 turn going to right with 1 long movement
 def circle_right():
 
-    #Give the stop signal to try and sync the bluetooth before sending
-    #the actual movement commands to try and make it more consistant
-    time = 2
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Go right forward for 10 seconds till facing 360 degrees
-    time = 10
-    speed = 2
-    direction = "Dir_RF"
-    controls(direction,speed,time)
+    #Combined all settings to sequence lists
+    sq_time = [2,10] #sequence time etc.
+    sq_speed = [2,2]
+    sq_direction = ["Dir_Stop","Dir_RF"]
+    #for each item in sequence, call method with corresponding values
+    for i in sq_time:
+        controls(sq_direction[i],sq_speed[i],sq_time[i])
 
 #360 turn going to left with 1 long movement
 def circle_left():
 
-    #Give the stop signal to try and sync the bluetooth before sending
-    #the actual movement commands to try and make it more consistant
-    time = 2
-    speed = 2
-    direction = "Dir_Stop"
-    controls(direction,speed,time)
-
-    #Go left forward for 10 seconds till facing 360 degrees
-    time = 11
-    speed = 2
-    direction = "Dir_LF"
-    controls(direction,speed,time)
+    #Combined all settings to sequence lists
+    sq_time = [2,11] #sequence time etc.
+    sq_speed = [2,2]
+    sq_direction = ["Dir_Stop","Dir_LF"]
+    #for each item in sequence, call method with corresponding values
+    for i in sq_time:
+        controls(sq_direction[i],sq_speed[i],sq_time[i])
