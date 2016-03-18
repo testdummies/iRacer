@@ -37,3 +37,6 @@ def connect_Bluetooth():
 def send_command(command_value):
     print "Sending command Now!"
     socket.send(command_value)
+
+def disconnect_Bluetooth():
+    socket.close() #test if it works.Calling this allow us to quit program and buetooth connection gracefully.
