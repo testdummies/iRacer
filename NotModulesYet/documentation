@@ -1,1 +1,3 @@
+http://www.pygame.org/docs/ref/key.html#pygame.key.set_repeat - pygame events everything - including timing and stuff.
+
 sudo apt-get install python-bluez to install python bluetooth module - verify
