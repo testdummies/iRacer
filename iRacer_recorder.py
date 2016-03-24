@@ -7,12 +7,14 @@ duration_sequence = []
 timestamp_sequence = []
 
 def recorder(command, duration, timestamp):
+    print "recorder"
     #add commands + duration of sleep that corresponds
     #to the command issued to lists
     #record timestamp of the command.
     #get difference between timestamps and maybe use it as 'wait/sleep' before
 
 def player():
+    print "player"
     #get difference between timestamps and maybe use it as 'wait/sleep' before
     #execute commands in order with timings?
 

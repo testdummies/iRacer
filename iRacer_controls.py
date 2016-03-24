@@ -3,7 +3,7 @@ import iRacer_recorder #recorder to be used for recording movements
 import time
 import struct
 
-debugging = True
+debugging = False
 
 # Program parameters.
 #
@@ -77,13 +77,19 @@ Speed[8] = '\x0D'
 Speed[9] = '\x0E'
 Speed[10] = '\x0F'
 
+current_speed = 0               #just speed for now
+current_acceleration = 0           #Forward - x10  #reverse x20
+current_steering = 0    #LF -x50 LR-x60  LB-x70 RB-x80
+
+
+
 
 def car_drive(command, duration):
     # takes combined input for direction/speed and makes car drive
     check_recording_status() # CHECK IF IT DOES NOT BREAK
     iRacer_bluetooth.send_command(command)
     time.sleep(duration)  # gives sleep of 50 miliseconds
-    car_stop()
+    #car_stop()
 
 def check_recording_status(): # CHECK IF IT DOES NOT BREAK
     if iRacer_recorder.car_recorder: #if recorder is on record
@@ -164,6 +170,69 @@ def combine_inputs(dir_hex, speed_hex):
         print "command_in_hex: " + str(command_in_hex)
     return command_in_hex
 #---------------------------------------------------------------------
+def change_current_stats(speed_change,acceleration_change,steering_change):
+    global current_speed,current_acceleration,current_steering
+
+    tmp_current_speed = current_speed + speed_change
+    tmp_current_acceleration = current_acceleration + acceleration_change
+    tmp_current_steering = current_steering + steering_change
+
+    tmp_current_speed = 2
+    if tmp_current_acceleration > 5:
+        tmp_current_acceleration = 5
+    if tmp_current_acceleration < -1:
+        tmp_current_acceleration = -1
+
+    if tmp_current_steering > 1:
+        tmp_current_steering = 1
+    if tmp_current_steering < -1:
+        tmp_current_steering = -1
+
+    current_speed = tmp_current_speed
+    current_acceleration = tmp_current_acceleration
+    current_steering = tmp_current_steering
+
+
+
+def input_to_movement(acceleration,steering,speed):
+    movement = '\x00'
+    speed = '\x09'
+
+    if acceleration > 0 and steering > 0: # forward right
+        movement = '\x60'
+    elif acceleration > 0 and steering < 0: # forward left
+        movement = '\x50'
+    elif acceleration > 0 and steering == 0: # forward straight
+        movement = '\x10'
+
+
+    elif acceleration < 0 and steering > 0: # reverse right
+        movement = '\x80'
+    elif acceleration < 0 and steering < 0: # reverse left
+        movement = '\x70'
+    elif acceleration < 0 and steering == 0: # reverse straight
+        movement = '\x20'
+
+
+    elif acceleration == 0 and steering > 0: # stopped right
+        movement = '\x60'
+        speed = '\x00'
+    elif acceleration == 0 and steering < 0: # stopped left
+        movement = '\x50'
+        speed = '\x00'
+    elif acceleration == 0 and steering == 0: # stopped straight
+        movement = '\x10'
+        speed = '\x00'
+
+    command = combine_inputs(movement, speed)
+    return command
+
+
+
+
+
+
+
 
 
 #---------------------------------------------------------------------

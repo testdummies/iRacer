@@ -102,6 +102,7 @@ def circle_left():
     sq_time = [2,9] #sequence time etc.
     sq_speed = [2,2]
     sq_direction = ["Dir_Stop","Dir_LF"]
+    print sq_time[0]
     #for each item in sequence, call method with corresponding values
     for i in range(len(sq_time)):
         controls(sq_direction[i],sq_speed[i],sq_time[i])

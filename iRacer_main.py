@@ -13,21 +13,16 @@
 #---------------------------------------------------------------------
 import iRacer_bluetooth
 import iRacer_controls
+import iRacer_input
 
-mac_address = "00:12:05:11:97:90"
-port_number = 1
-pin_number = "1234"
-#connect car - bluetooth#
-iRacer_bluetooth.device_settings(mac_address, port_number, pin_number)
-iRacer_bluetooth.connect_Bluetooth()
+def bluetooth_connect():
+    mac_address = "00:12:05:11:97:90"
+    port_number = 1
+    pin_number = "1234"
+    #connect car - bluetooth#
+    iRacer_bluetooth.device_settings(mac_address, port_number, pin_number)
+    iRacer_bluetooth.connect_Bluetooth()
 
-#send commands#
-#dir_hex = '\x10'
-#speed_hex = '\x05'
-time = 5
 
-direction = iRacer_controls.direction_lookup("Dir_SF")
-speed = iRacer_controls.speed_lookup(4)
-
-value = iRacer_controls.combine_inputs(direction, speed)
-iRacer_controls.car_drive(value, time)
+bluetooth_connect()
+iRacer_input.start_keyboard_input()
