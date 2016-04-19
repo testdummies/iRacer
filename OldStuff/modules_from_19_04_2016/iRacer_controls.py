@@ -1,7 +1,9 @@
-import iRacer_bluetooth
-import iRacer_recorder #recorder to be used for recording movements
-import time
 import struct
+import time
+
+import iRacer_bluetooth
+
+from OldStuff.modules_from_19_04_2016 import iRacer_recorder
 
 debugging = False
 

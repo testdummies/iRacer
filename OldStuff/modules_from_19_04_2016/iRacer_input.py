@@ -1,8 +1,7 @@
-import time
-from datetime import datetime
 import pygame
-import time, sys
-import iRacer_controls
+
+from OldStuff.modules_from_19_04_2016 import iRacer_controls
+
 #CONTROLS
 
 #CAR CONTROLS
@@ -49,7 +48,6 @@ acceleration = 0
 direction  = 0
 
 import pygame
-import time, sys
 
 pygame.init()
 pygame.display.set_mode((1,1))
@@ -133,9 +131,9 @@ def start_keyboard_input():
             acc = iRacer_controls.current_acceleration
             ster = iRacer_controls.current_steering
             print "Acceleration: %-*s  Steering: %s" % (20,str(acc),str(ster))
-            iRacer_controls.change_current_stats(speed_change,acceleration_change,steering_change)
+            iRacer_controls.change_current_stats(speed_change, acceleration_change, steering_change)
 
-            command = iRacer_controls.input_to_movement(acc,ster,2)
+            command = iRacer_controls.input_to_movement(acc, ster, 2)
             iRacer_controls.car_drive(command, 0.1)
 
 

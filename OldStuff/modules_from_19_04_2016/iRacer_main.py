@@ -12,8 +12,9 @@
 # Revision:         see git rev. - ADD GIT
 #---------------------------------------------------------------------
 import iRacer_bluetooth
-import iRacer_controls
-import iRacer_input
+
+from OldStuff.modules_from_19_04_2016 import iRacer_input
+
 
 def bluetooth_connect():
     mac_address = "00:12:05:11:97:90"
