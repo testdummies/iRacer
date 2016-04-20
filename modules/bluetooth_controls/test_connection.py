@@ -1,5 +1,5 @@
 import unittest
-import modules.bluetooth.connection as bt_connection
+import modules.bluetooth_controls.connection as bt_connection
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,38 +1,42 @@
 import bluetooth
 
-
-##http://blog.kevindoran.co/bluetooth-programming-with-python-3/
 #=============================================================================
 # Global variables
 # mac_address:  mac_address = mac address of the device that is going to be connected. (string)
-# port_number:  port = port to be used with bluetooth - arbitrary number - should match server/client (integer)
-# bt_socket:    socket with parameters for bluetooth connectivity (socket)
+# port_number:  port = port to be used with bluetooth_controls - arbitrary number - should match server/client (integer)
+# bt_socket:    socket with parameters for bluetooth_controls connectivity (socket)
 # =============================Global variables=================================
 mac_address = ""
 port_number = ""
 bt_socket = ""
+
+
 # =============================================================================
 # Name:       set_device_settings(self, mac_address, port_number)
 # Arguments:  mac_address = mac address of the device that is going to be connected.
 # Purpose:    Initialises global variables mac_address,port_number,bt_socket
 # ==============================================================================
-def set_up_device(address, port):
+def set_up_device(address,port):
     global mac_address
     global port_number
     mac_address = address
     port_number = port
 # =============================================================================
+
+
 # =============================================================================
 # Name:       set_up_bluetooth_socket()
-# Purpose:    Initialises bt_socket as bluetooth socket
+# Purpose:    Initialises bt_socket as bluetooth_controls socket
 # ==============================================================================
 def set_up_bluetooth_socket():
     global bt_socket
     bt_socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
 # =============================================================================
+
+
 # =============================================================================
 # Name:       connect_bluetooth()
-# Purpose:    Attempts to connect to the bluetooth device with mac address and port number
+# Purpose:    Attempts to connect to the bluetooth_controls device with mac address and port number
 #             or exists with error messages of what went wrong.
 # ==============================================================================
 def connect_bluetooth():
@@ -44,28 +48,28 @@ def connect_bluetooth():
         raise SystemExit("Something went wrong while connecting to {0}, Exception is {1}:".format(
             mac_address, e)+"\nExiting program now.!")
 # =============================================================================
+
+
 # =============================================================================
 # Name:       send_command(self, command_value)
-# Arguments:  command_value = a hex code that will be understandable to bluetooth car
-# Purpose:    Sends data to the bluetooth car
+# Arguments:  command_value = a hex code that will be understandable to bluetooth_controls car
+# Purpose:    Sends data to the bluetooth_controls car
 # ==============================================================================
 def send_command(command_value):
     print("Sending command Now!")
     bt_socket.send(command_value)
 # =============================================================================
+
+
 # =============================================================================
 # Name:       disconnect_bluetooth(self)
-# Purpose:    closes connection over socket.
+# Purpose:    closes connection over bluetooth socket.
 # ==============================================================================
 def disconnect_bluetooth():
     bt_socket.close()
-    print("Closing bluetooth socket now!")
+    print("Closing bluetooth_controls socket now!")
 # =============================================================================
 # =============================================================================
-
-
-
-
 # ==================================TESTING====================================
 
 
