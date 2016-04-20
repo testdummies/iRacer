@@ -1,4 +1,5 @@
 import bluetooth
+import time
 
 #=============================================================================
 # Global variables
@@ -51,13 +52,15 @@ def connect_bluetooth():
 
 
 # =============================================================================
-# Name:       send_command(self, command_value)
+# Name:       send_command(command_value, time_delay)
 # Arguments:  command_value = a hex code that will be understandable to bluetooth_controls car
+# Arguments:  time_delay = time required to wait
 # Purpose:    Sends data to the bluetooth_controls car
 # ==============================================================================
-def send_command(command_value):
+def send_command(command_value, time_delay):
     print("Sending command Now!")
     bt_socket.send(command_value)
+    time.sleep(time_delay)
 # =============================================================================
 
 
