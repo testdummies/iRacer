@@ -5,9 +5,8 @@ import pygame
 import modules.movement.control as control
 import modules.configuration.active_settings as st
 import modules.configuration.key_translation as kt
-import modules.calculations.math as math
 import modules.bluetooth_controls.connection as bt
-#os.environ['SDL_VIDEODRIVER'] = 'dummy'
+
 pygame.init()
 pygame.display.set_mode((800, 600))
 
@@ -15,26 +14,22 @@ pygame.display.set_mode((800, 600))
 def check_active_keys():
     transmission = st.Transmission
     if transmission == "AUTOMATIC":
-        pygame.key.set_repeat(1, 500) #125 default
+        pygame.key.set_repeat(1, 50) #125 default
     else:
         pass
 
-    counter = 0
-    previous_command = ""
-    current_command = ""
     control.set_acceleration_timer()
     while True:
         transmission = st.Transmission
         for event in pygame.event.get():  # for every event in queue
-            #if event.type == (pygame.KEYDOWN or pygame.KEYUP):  # if event type is keyboard key down or key up
-            #print (pygame.event.event_name(event.type))
             if event.type == \
                     pygame.ACTIVEEVENT \
                     or event.type == pygame.MOUSEMOTION \
                     or event.type == pygame.MOUSEBUTTONDOWN \
                     or event.type == pygame.MOUSEBUTTONUP:
                 # event.type == 1 or event.type == 4 or event.type == 5 or event.type == 6
-                pass #pass as those events are not what we are looking for
+                pass
+                # pass as those events are not what we are looking for
 
             else:
                 pressed_list = pygame.key.get_pressed()  # execute following
@@ -51,14 +46,15 @@ def check_active_keys():
                 Record_Movements_Off = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_Off])
 
                 if hand_break:
-                    print ("handbreak on")
                     control.current_direction = "STOP"
                     control.current_gear = 0
+                    control.set_current_command()
+                    bt.send_command(control.current_command, 0.01)
+
                 else:
                     control.current_direction = update_current_direction(control.current_gear,
                                                                          steering_change(steer_left, steer_right))
                     if transmission == "MANUAL":
-                        print ("Manual") # this seemed to work?
                         control.set_current_gear(
                             update_current_gear(
                                 control.current_gear, acceleration_change(Gear_Up, Gear_Down)
@@ -66,34 +62,62 @@ def check_active_keys():
                         )
 
                     elif transmission == "AUTOMATIC":
-                        print ("Automatic")
                         if accelerate or break_reverse:
-                            control.set_current_gear(
-                                update_current_gear(
-                                    control.current_gear, acceleration_change(accelerate, break_reverse)
+                            acc = acceleration_change(accelerate, break_reverse)
+                            control.set_acceleration_gear_count(acc)
+                            if control.acceleration_gear_count % 10 == 0:
+                                control.set_current_gear(
+                                    update_current_gear(
+                                        control.current_gear, acceleration_change(accelerate, break_reverse)
+                                    )
                                 )
-                            )
+                            else:
+                                pass
                             control.set_acceleration_timer()
-                    # this should work normally
+                        else:
+                            control.set_acceleration_gear_count(-100)
+            print ("current gear "+str(control.current_gear))
+            print ("gear count "+str(control.acceleration_gear_count))
+            control.set_current_command()
+            if transmission == "AUTOMATIC" and check_time():
+                control.set_current_command()
+                control.set_acceleration_timer()
 
-        diff = time.time() - control.acceleration_timer
-        #print diff
-        if diff > 1:
+            send_if_change_in_commands()
+        if transmission == "AUTOMATIC" and check_time():
+                control.set_current_command()
+                control.set_acceleration_timer()
+                send_if_change_in_commands()
+
+
+def send_if_change_in_commands():
+    if control.current_command != control.previous_command:
+        control.set_previous_command_as_current_command  # set previous command
+        bt.send_command(control.current_command, 0.01)
+    else:  # if nothing changed
+        pass
+
+
+def check_time():
+    diff = time.time() - control.acceleration_timer
+    if diff > 0.4:
+        if control.current_gear > 0:
+            #control.set_current_gear(0)
+
             control.set_current_gear(
                 update_current_gear(
                     control.current_gear, -1)
             )
+        elif control.current_gear < 0:
+            # control.set_current_gear(0)
+            control.set_current_gear(
+                update_current_gear(
+                    control.current_gear, 1)
+            )
 
-        control.set_current_command()
-        control.set_acceleration_timer()
-        # check if anything changed and if it did send update
-        if control.current_command != control.previous_command:
-            print ("previous command is: " + str(math.hex_to_int(control.previous_command)))  # send this command
-            print ("current command is: " + str(math.hex_to_int(control.current_command)))  # send this command
-            control.set_previous_command_as_current_command  # set previous command
-            bt.send_command(control.current_command, 0.01)
-        else: #if nothing changed
-            pass
+        return True
+    else:
+        return False
 
 
 def are_keys_in_list(list_of_pressed, key_list):
@@ -179,7 +203,7 @@ def gear_change(Gear_Up, Gear_Down):
     elif Gear_Down:
         change_to_gear += -1
 
-    if (control.current_gear + change_to_gear)<0:
+    if (control.current_gear + change_to_gear)< 0:
         return -1
     if (control.current_gear + change_to_gear) > 5:
         return 5

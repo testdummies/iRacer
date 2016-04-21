@@ -60,7 +60,7 @@ def connect_bluetooth():
 # Purpose:    Sends data to the bluetooth_controls car
 # ==============================================================================
 def send_command(command_value, time_delay):
-    print("Sending command Now!")
+    #print("Sending command Now!")
     bt_socket.send(command_value)
     time.sleep(time_delay)
 

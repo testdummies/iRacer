@@ -8,9 +8,10 @@ import time
 # =============================Global variables=================================
 current_direction = "STOP"
 current_gear = 0
-current_command = ""
+current_command = math.int_to_hex(0)
 previous_command = math.int_to_hex(0)
 acceleration_timer = time.time()
+acceleration_gear_count = 0
 
 
 # =============================================================================
@@ -21,6 +22,18 @@ acceleration_timer = time.time()
 def set_current_direction(direction):
     global current_direction
     pass
+
+# =============================================================================
+# Name:       set_acceleration_gear_count(number)
+# Purpose:    Sets current_direction to a string corresponding to correct input
+# TODO        FINISH THIS UP
+# =============================================================================
+def set_acceleration_gear_count(number):
+    global acceleration_gear_count
+    if number == -100:
+        acceleration_gear_count = 0
+    else:
+        acceleration_gear_count += number
 
 # =============================================================================
 # Name:       set_current_direction()
@@ -59,6 +72,7 @@ def set_current_command():
 #             convert it into current_command
 # =============================================================================
 def set_previous_command_as_current_command():
+    #print "current command as previous command"
     global previous_command
     previous_command = current_command
 
