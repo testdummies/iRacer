@@ -6,9 +6,10 @@ import time
 # ==============================================================================
 # Global variables
 # =============================Global variables=================================
-current_direction = ""
+current_direction = "STOP"
 current_gear = 0
 current_command = ""
+previous_command = ""
 
 
 # =============================================================================
@@ -26,19 +27,29 @@ def set_current_direction(direction):
 # TODO        FINISH THIS UP
 # =============================================================================
 def set_current_gear(gear):
-    print ("inide set"+str(gear))
+    #print ("inide set"+str(gear))
     global current_gear
     current_gear = gear
 
 
 # =============================================================================
-# Name:       update_command()
+# Name:       set_current_command()
 # Purpose:    takes currently set values for direction and gear to
 #             convert it into current_command
 # =============================================================================
 def set_current_command():
+    print ("setting current_command to: "+str(current_command))
     global current_command
     current_command = math.get_combined_value(current_direction, current_gear)
+
+# =============================================================================
+# Name:       set_previous_command_as_current_command()
+# Purpose:    takes currently set values for direction and gear to
+#             convert it into current_command
+# =============================================================================
+def set_previous_command_as_current_command():
+    global previous_command
+    previous_command = current_command
 
 
 # =============================================================================

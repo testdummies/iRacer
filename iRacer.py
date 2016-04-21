@@ -1,5 +1,5 @@
-import time
 
+import time
 import modules.bluetooth_controls.connection as bt
 import modules.interface.keyboard_input as key
 import pygame
@@ -22,6 +22,8 @@ def checkMovements():
 
 def check_pressed_keys_settings():
     settings.load_config()
+    bt.initialise_bluetooth_settings()
+    bt.connect_bluetooth()
     key.check_active_keys()
 
 

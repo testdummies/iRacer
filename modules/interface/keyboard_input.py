@@ -1,56 +1,100 @@
 # TODO THIS SECTION
+import os
+import time
 import pygame
 import modules.movement.control as control
 import modules.configuration.active_settings as st
 import modules.configuration.key_translation as kt
+import modules.calculations.math as math
+import modules.bluetooth_controls.connection as bt
+#os.environ['SDL_VIDEODRIVER'] = 'dummy'
 pygame.init()
-pygame.display.set_mode((50, 50))
+pygame.display.set_mode((800, 600))
 
 
 def check_active_keys():
+    transmission = st.Transmission
+    if transmission == "AUTOMATIC":
+        pygame.key.set_repeat(1, 500) #125 default
+    else:
+        pass
+
     counter = 0
+    previous_command = ""
+    current_command = ""
     while True:
-        #pygame.key.set_repeat(1, 125)
         transmission = st.Transmission
+        last_time_gear_pressed = time.time()
         for event in pygame.event.get():  # for every event in queue
             #if event.type == (pygame.KEYDOWN or pygame.KEYUP):  # if event type is keyboard key down or key up
-            pressed_list = pygame.key.get_pressed()  # execute following
-            steer_left = are_keys_in_list(pressed_list, [st.KEYBOARD_Steer_Left])
-            steer_right = are_keys_in_list(pressed_list, [st.KEYBOARD_Steer_Right])
-            accelerate = are_keys_in_list(pressed_list, [st.KEYBOARD_Accelerate])
-            break_reverse = are_keys_in_list(pressed_list, [st.KEYBOARD_Break_Reverse])
-            hand_break = are_keys_in_list(pressed_list, [st.KEYBOARD_Hand_Break])
-            NOS = are_keys_in_list(pressed_list, [st.KEYBOARD_NOS])
-            Gear_Up = are_keys_in_list(pressed_list, [st.KEYBOARD_Gear_Up])
-            Gear_Down = are_keys_in_list(pressed_list, [st.KEYBOARD_Gear_Down])
-            Cruise_Control = are_keys_in_list(pressed_list, [st.KEYBOARD_Cruise_Control])
-            Record_Movements_On = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_On])
-            Record_Movements_Off = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_Off])
+            #print (pygame.event.event_name(event.type))
+            if event.type == \
+                    pygame.ACTIVEEVENT \
+                    or event.type == pygame.MOUSEMOTION \
+                    or event.type == pygame.MOUSEBUTTONDOWN \
+                    or event.type == pygame.MOUSEBUTTONUP:
+                # event.type == 1 or event.type == 4 or event.type == 5 or event.type == 6
+                pass #pass as those events are not what we are looking for
 
-
-            if (hand_break):
-                print ("handbreak on")
-                control.current_direction = 0
-                control.current_gear = 0
             else:
-                print ("not on handbreak")
-                control.current_direction = update_current_direction(steering_change(steer_left, steer_right))
-                if transmission == "AUTOMATIC":
-                    print ("Automatic")
-                    control.set_current_gear(
-                        update_current_gear(
-                            control.current_gear, acceleration_change(accelerate, break_reverse)
+                pressed_list = pygame.key.get_pressed()  # execute following
+                steer_left = are_keys_in_list(pressed_list, [st.KEYBOARD_Steer_Left])
+                steer_right = are_keys_in_list(pressed_list, [st.KEYBOARD_Steer_Right])
+                accelerate = are_keys_in_list(pressed_list, [st.KEYBOARD_Accelerate])
+                break_reverse = are_keys_in_list(pressed_list, [st.KEYBOARD_Break_Reverse])
+                hand_break = are_keys_in_list(pressed_list, [st.KEYBOARD_Hand_Break])
+                NOS = are_keys_in_list(pressed_list, [st.KEYBOARD_NOS])
+                Gear_Up = are_keys_in_list(pressed_list, [st.KEYBOARD_Gear_Up])
+                Gear_Down = are_keys_in_list(pressed_list, [st.KEYBOARD_Gear_Down])
+                Cruise_Control = are_keys_in_list(pressed_list, [st.KEYBOARD_Cruise_Control])
+                Record_Movements_On = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_On])
+                Record_Movements_Off = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_Off])
+
+                if (hand_break):
+                    print ("handbreak on")
+                    control.current_direction = "STOP"
+                    control.current_gear = 0
+                else:
+                    print ("not on handbreak")
+                    control.current_direction = update_current_direction(control.current_gear,
+                                                                         steering_change(steer_left, steer_right))
+                    if transmission == "AUTOMATIC":
+                        print ("Automatic")
+                        #when pressed  for x seconds forward increase by 1 up to 5
+                        #when pressed  for x seconds backward decrease by 1 up to -1
+                        #when nither key is pressed for x seconds decrease to 0
+
+                        if accelerate or break_reverse:
+                            control.set_current_gear(
+                                update_current_gear(
+                                    control.current_gear, acceleration_change(accelerate, break_reverse)
+                                )
+                            )
+                            last_time_gear_pressed = time.time()
+                    if transmission == "MANUAL":
+                        print ("Manual")
+                        control.set_current_gear(
+                            update_current_gear(
+                                control.current_gear, acceleration_change(Gear_Up, Gear_Down)
+                            )
                         )
-                    )
+                    control.set_current_command()
+        if control.current_command != control.previous_command:
+            print ("current command is: " + str(math.hex_to_int(control.current_command)))  # send this command
+            control.set_previous_command_as_current_command  # set previous command
+            bt.send_command(control.current_command, 0.01)
+        else:
+            #pass  # no changes in commands so pass and wait for input
+            diff = time.time() - last_time_gear_pressed
+            print diff
+            if diff > 0.5:
+                control.set_current_gear(
+                    update_current_gear(
+                        control.current_gear, -1)
+                )
+                control.set_previous_command_as_current_command
+                bt.send_command(control.current_command, 0.01)
 
-                   # print ("current gear"+str(control.set_current_gear()))
-                if transmission == "MANUAL":
-                    print ("Manual")
-                    control.set_current_gear(update_current_gear(control.current_gear, gear_change(Gear_Up, Gear_Down)))
-
-
-            print counter
-            counter+=1
 '''
             print(transmission)
             print(steer_left)
@@ -76,21 +120,44 @@ def are_keys_in_list(list_of_pressed, key_list):
             return True
     return False
 
-def update_current_direction(change_to_direction):
-    return change_to_direction  # returns current direction if 0 straight, if -1 left if 1 right.
+def update_current_direction(current_gear,  change_to_direction):
+
+    new_direction = "STOP";
+    if current_gear > 0: # if it's going forward
+        if change_to_direction == 1:
+            new_direction = "FR"         # Forward Right
+            pass
+        elif change_to_direction == -1:
+            new_direction = "FL"         # Forward Left              pass
+        else:
+            new_direction = "FS"         # Forward Straight
+            pass
+    if current_gear < 0: # if it's going reverse
+        if change_to_direction == 1:
+            new_direction = "RR"        # Reverse Right            pass
+        elif change_to_direction == -1:
+            new_direction = "RL"        # Reverse Left
+            pass
+        else:
+            new_direction = "RS"        # Reverse Straight
+            pass
+    if current_gear == 0:               # if it's going stopped
+        if change_to_direction == 1:
+            new_direction = "NR"        # Neutral Right
+            pass
+        elif change_to_direction == -1:
+            new_direction = "NL"        # Neutral Left
+            pass
+        else:
+            # do nothing
+            pass
+
+    return new_direction  # returns current direction if 0 straight, if -1 left if 1 right.
 
 
 def update_current_gear(current_gear, change_to_gear):
-    #print (type(current_gear))
-    # print (type(change_to_gear))
-    #if type(current_gear) != int:
-       # current_gear = 0
-       # print current_gear
-
     tmp = current_gear + change_to_gear
 
-    print (tmp)
-    # print (type(change_to_gear))
     if tmp < 0:
         return -1       # limits reverse gear to -1
     elif tmp > 5:
@@ -136,6 +203,7 @@ def gear_change(Gear_Up, Gear_Down):
 
 
 
+'''
 ##http://nullege.com/codes/search?cq=pygame.event.get
 def listen_for_input():
     pygame.key.set_repeat(1, 125)
@@ -173,7 +241,7 @@ def get_list_of_pressed(pressed):
         index +=1
     #return list_of_pressed
     return list_of_pressed_chars
-
+'''
 
 
 
