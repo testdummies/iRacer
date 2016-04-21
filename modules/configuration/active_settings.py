@@ -10,7 +10,9 @@ import pygame
 #http://pastebin.com/GKbPFdNs - known keys
 
 config = ConfigParser.ConfigParser()
-candidates = ['modules\configuration\config.ini', '..\configuration\config.ini', 'config.ini']
+#candidates = ['modules\configuration\config.ini', '..\configuration\config.ini', 'config.ini']
+candidates = ['modules/configuration/config.ini', '../configuration/config.ini', 'config.ini']
+
 correctPath = []
 correctPath.extend(config.read(candidates)) #it choses path that is relevant to the current directory it's calling from.
 
