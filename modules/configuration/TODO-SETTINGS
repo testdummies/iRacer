@@ -1,0 +1,11 @@
+GUI has settings
+set input, save to file, reload
+
+Display to user Text name of key;
+
+when user presses key, it takes it as number and translates it to text. Sets new key as text
+    If given text already exists in other options (check input for all options) remove that option
+    Display message that some Keys are unbound.
+    If some keys are not bound don't let the setting to save.
+
+

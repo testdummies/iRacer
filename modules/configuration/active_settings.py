@@ -1,10 +1,18 @@
 #TODO LOAD SETTINGS FROM CONFIG FILE
 #TODO MAKE SURE BOTH KEYBOARD AND CONTROLLER INPUT GET TREATED EQUALLY
-
 #TODO MAKE SURE SETTINGS WORK WITH SOMETHING THAT INTERPRETS KEYS
+#TODO MAKE METHODS TO UPDATE BINDINGS.INI FILE AS WELL AS ON THE FLY UPDATE PROGRAM SETTSING FROM THAT FILE.
+#TODO MAKE METHODS TO CHECK IF KEYS ARE USED FOR SOMETHING ELSE AND UNBIND THEM.
+#TODO SETTINGS LIKE VERBOSE
 
 import ConfigParser
+import pygame
+#http://pastebin.com/GKbPFdNs - known keys
+
 config = ConfigParser.ConfigParser()
+candidates = ['modules\configuration\config.ini', '..\configuration\config.ini', 'config.ini']
+correctPath = []
+correctPath.extend(config.read(candidates)) #it choses path that is relevant to the current directory it's calling from.
 
 # [DEVICE SETTINGS]
 MAC_ADDRESS = ""
@@ -48,13 +56,14 @@ def load_config():
     global CONTROLLER_NOS, CONTROLLER_Gear_Up, CONTROLLER_Gear_Down, CONTROLLER_Cruise_Control, CONTROLLER_Record_Movements_On
     global CONTROLLER_Record_Movements_On, CONTROLLER_Record_Movements_Off
 
-    config.read('config.ini')
+    config.read(correctPath[0])
+
     #[DEVICE SETTINGS]
-    MAC_ADDRESS                     = config.get('DEVICE_SETTINGS', 'MAC_ADDRESS')
-    BLUETOOTH_CHANNEL               = config.get('DEVICE_SETTINGS', 'BLUETOOTH_CHANNEL')
+    MAC_ADDRESS                     = str(config.get('DEVICE_SETTINGS', 'MAC_ADDRESS'))
+    BLUETOOTH_CHANNEL               = int(config.get('DEVICE_SETTINGS', 'BLUETOOTH_CHANNEL'))
 
     #[DRIVE_SETTINGS]
-    Transmission                    = config.get('DRIVE_SETTINGS', 'Transmission')
+    Transmission                    = str(config.get('DRIVE_SETTINGS', 'Transmission'))
 
     #[KEYBOARD_MAPPING]
     KEYBOARD_Steer_Left             = config.get('KEYBOARD_MAPPING', 'Steer Left')
@@ -117,13 +126,12 @@ def print_entire_config():
     print (CONTROLLER_Record_Movements_Off)
 
 
+#TODO TESTING IF UPDATE CONFIG FIELD WORKS WITH CORRECTPATH[0]
 def update_config_field(section, option, value):
-    config.set(section,option,value)
-    with open('config.ini', 'w') as configfile:
+    config.set(section, option, value)
+    with open(correctPath[0], 'w') as configfile:
         config.write(configfile)
     load_config()
 
 
-load_config()
-update_config_field('CONTROLLER_MAPPING',  'Record Movements Off', 'TEST2')
-print_entire_config()
+
