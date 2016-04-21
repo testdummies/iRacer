@@ -23,6 +23,8 @@ def execute_manoeuvre(time_list, gear_list, direction_list):
     for i in range(len(time_list)):
         command = math.get_combined_value(direction_list[i], gear_list[i])
         bt.send_command(command, time_list[i])
+    command = math.get_combined_value(0,  0)
+    bt.send_command(command, time_list[0.01])
 
 
 # =============================================================================
