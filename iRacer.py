@@ -4,6 +4,7 @@ import modules.bluetooth_controls.connection as bt
 import modules.interface.keyboard_input as key
 import pygame
 import modules.movement.manoeuvres as mv
+import modules.configuration.active_settings as settings
 
 def checkMovements():
     bt.initialise_bluetooth_settings()
@@ -17,9 +18,14 @@ def checkMovements():
     #mv.turn_around_left()
     #mv.turn_around_right()
 
-checkMovements()
+#checkMovements()
+
+def check_pressed_keys_settings():
+    settings.load_config()
+    key.check_active_keys()
 
 
+check_pressed_keys_settings()
 
 '''
 def compile_list_of_keys_names_and_ids():

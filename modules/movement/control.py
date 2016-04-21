@@ -7,7 +7,7 @@ import time
 # Global variables
 # =============================Global variables=================================
 current_direction = ""
-current_gear = ""
+current_gear = 0
 current_command = ""
 
 
@@ -16,7 +16,7 @@ current_command = ""
 # Purpose:    Sets current_direction to a string corresponding to correct input
 # TODO        FINISH THIS UP
 # =============================================================================
-def set_current_direction():
+def set_current_direction(direction):
     global current_direction
     pass
 
@@ -25,9 +25,10 @@ def set_current_direction():
 # Purpose:    Sets current_gear to a number corresponding to correct input
 # TODO        FINISH THIS UP
 # =============================================================================
-def set_current_gear():
+def set_current_gear(gear):
+    print ("inide set"+str(gear))
     global current_gear
-    pass
+    current_gear = gear
 
 
 # =============================================================================

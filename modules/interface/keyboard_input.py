@@ -1,47 +1,78 @@
 # TODO THIS SECTION
 import pygame
 import modules.movement.control as control
-
+import modules.configuration.active_settings as st
+import modules.configuration.key_translation as kt
 pygame.init()
 pygame.display.set_mode((50, 50))
 
 
 def check_active_keys():
-
-    for event in pygame.event.get():  # for every event in queue
-        if event.type == (pygame.KEYDOWN or pygame.KEYDOWN):  # if event type is keyboard key down or key up
+    counter = 0
+    while True:
+        #pygame.key.set_repeat(1, 125)
+        transmission = st.Transmission
+        for event in pygame.event.get():  # for every event in queue
+            #if event.type == (pygame.KEYDOWN or pygame.KEYUP):  # if event type is keyboard key down or key up
             pressed_list = pygame.key.get_pressed()  # execute following
-
-    transmission = "Automatic"
-    steer_left = are_keys_in_list(pressed_list, key_list)
-    steer_right = are_keys_in_list(pressed_list, key_list)
-    accelerate = are_keys_in_list(pressed_list, key_list)
-    break_reverse = are_keys_in_list(pressed_list, key_list)
-    hand_break = are_keys_in_list(pressed_list, key_list)
-    NOS = are_keys_in_list(pressed_list, key_list)
-    Gear_Up = are_keys_in_list(pressed_list, key_list)
-    Gear_Down = are_keys_in_list(pressed_list, key_list)
-    Cruise_Control = are_keys_in_list(pressed_list, key_list)
-    Record_Movements_On = are_keys_in_list(pressed_list, key_list)
-    Record_Movements_Off = are_keys_in_list(pressed_list, key_list)
+            steer_left = are_keys_in_list(pressed_list, [st.KEYBOARD_Steer_Left])
+            steer_right = are_keys_in_list(pressed_list, [st.KEYBOARD_Steer_Right])
+            accelerate = are_keys_in_list(pressed_list, [st.KEYBOARD_Accelerate])
+            break_reverse = are_keys_in_list(pressed_list, [st.KEYBOARD_Break_Reverse])
+            hand_break = are_keys_in_list(pressed_list, [st.KEYBOARD_Hand_Break])
+            NOS = are_keys_in_list(pressed_list, [st.KEYBOARD_NOS])
+            Gear_Up = are_keys_in_list(pressed_list, [st.KEYBOARD_Gear_Up])
+            Gear_Down = are_keys_in_list(pressed_list, [st.KEYBOARD_Gear_Down])
+            Cruise_Control = are_keys_in_list(pressed_list, [st.KEYBOARD_Cruise_Control])
+            Record_Movements_On = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_On])
+            Record_Movements_Off = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_Off])
 
 
-    if (hand_break):
-        control.current_direction = 0
-        control.current_gear = 0
+            if (hand_break):
+                print ("handbreak on")
+                control.current_direction = 0
+                control.current_gear = 0
+            else:
+                print ("not on handbreak")
+                control.current_direction = update_current_direction(steering_change(steer_left, steer_right))
+                if transmission == "AUTOMATIC":
+                    print ("Automatic")
+                    control.set_current_gear(
+                        update_current_gear(
+                            control.current_gear, acceleration_change(accelerate, break_reverse)
+                        )
+                    )
 
-    else:
-        control.current_direction = update_current_direction(steering_change(steer_left, steer_right))
-        if transmission == "Automatic":
-            control.current_gear = update_current_gear(control.current_gear, acceleration_change(accelerate, break_reverse))
-        if transmission == "Manual":
-            control.current_gear = update_current_gear(control.current_gear, gear_change(Gear_Up, Gear_Down))
+                   # print ("current gear"+str(control.set_current_gear()))
+                if transmission == "MANUAL":
+                    print ("Manual")
+                    control.set_current_gear(update_current_gear(control.current_gear, gear_change(Gear_Up, Gear_Down)))
 
+
+            print counter
+            counter+=1
+'''
+            print(transmission)
+            print(steer_left)
+            print(steer_right)
+            print(accelerate)
+            print(break_reverse)
+            print(hand_break)
+            print(NOS)
+            print(Gear_Up)
+            print(Gear_Down)
+            print(Cruise_Control)
+            print(Record_Movements_On)
+            print(Record_Movements_Off)
+            '''
+
+            #print counter
+            #counter+=1
 
 def are_keys_in_list(list_of_pressed, key_list):
 
     for key in key_list:
-        if list_of_pressed[key]:
+        if list_of_pressed[kt.get_key_number(key)]:
             return True
     return False
 
@@ -50,13 +81,22 @@ def update_current_direction(change_to_direction):
 
 
 def update_current_gear(current_gear, change_to_gear):
+    #print (type(current_gear))
+    # print (type(change_to_gear))
+    #if type(current_gear) != int:
+       # current_gear = 0
+       # print current_gear
 
     tmp = current_gear + change_to_gear
 
+    print (tmp)
+    # print (type(change_to_gear))
     if tmp < 0:
         return -1       # limits reverse gear to -1
-    if tmp > 5:
+    elif tmp > 5:
         return 5        # limits accelerate gears to 5
+    else:
+        return tmp
 
 
 def steering_change(left, right):
