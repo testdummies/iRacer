@@ -3,10 +3,25 @@ import time
 import modules.bluetooth_controls.connection as bt
 import modules.interface.keyboard_input as key
 import pygame
-# key.listen_for_input() #- returns list of keys by number or name.
-# print (pygame.key.name('K_BACKSPACE'))
+import modules.movement.manoeuvres as mv
+
+def checkMovements():
+    bt.initialise_bluetooth_settings()
+    bt.connect_bluetooth()
+    mv.circle_left()
+    #mv.circle_right()
+    #mv.parallel_parking_left_side()
+    #mv.parallel_parking_right_side()
+    #mv.three_point_turn_left()
+    #mv.three_point_turn_right()
+    #mv.turn_around_left()
+    #mv.turn_around_right()
+
+checkMovements()
 
 
+
+'''
 def compile_list_of_keys_names_and_ids():
     key_list = pygame.key.get_pressed()
     list_of_ascii_num = []
@@ -22,7 +37,6 @@ def compile_list_of_keys_names_and_ids():
 
 
 compile_list_of_keys_names_and_ids()
-'''
 bt.initialise_bluetooth_settings()
 bt.connect_bluetooth()
 key.start_keyboard_input()

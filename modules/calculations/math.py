@@ -73,6 +73,18 @@ def get_speed_value(current_gear):
 
     speed[0] = 0    # no gear / stopped  - '\x00'
 
+    speed[1] = 7  # first gear         - '\x07'
+    speed[2] = 8  # second gear        - '\x08'
+    speed[3] = 9  # third gear         - '\x09'
+    speed[4] = 10  # fourth gear        - '\x0A'
+    speed[5] = 11  # fifth gear        - '\x0B'
+    speed[6] = 12  # sixth gear        - '\x0C'
+    speed[7] = 13  # seventh gear      - '\x0D'
+    speed[8] = 14  # eighth gear       - '\x0E'
+    speed[9] = 15  # ninth gear        - '\x0F'
+    return speed[current_gear]
+
+'''
     speed[1] = 6    # first gear         - '\x06'
     speed[2] = 7    # second gear        - '\x07'
     speed[3] = 8    # third gear         - '\x08'
@@ -83,8 +95,7 @@ def get_speed_value(current_gear):
     speed[8] = 13    # eighth gear       - '\x0D'
     speed[9] = 14    # ninth gear        - '\x0E'
     speed[10] = 15    # tenth gear       - '\x0F'
-
-    return speed[current_gear]
+    '''
 
 
 # =============================================================================
