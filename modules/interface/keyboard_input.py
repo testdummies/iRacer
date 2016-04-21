@@ -22,9 +22,9 @@ def check_active_keys():
     counter = 0
     previous_command = ""
     current_command = ""
+    control.set_acceleration_timer()
     while True:
         transmission = st.Transmission
-        last_time_gear_pressed = time.time()
         for event in pygame.event.get():  # for every event in queue
             #if event.type == (pygame.KEYDOWN or pygame.KEYUP):  # if event type is keyboard key down or key up
             #print (pygame.event.event_name(event.type))
@@ -50,68 +50,51 @@ def check_active_keys():
                 Record_Movements_On = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_On])
                 Record_Movements_Off = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_Off])
 
-                if (hand_break):
+                if hand_break:
                     print ("handbreak on")
                     control.current_direction = "STOP"
                     control.current_gear = 0
                 else:
-                    print ("not on handbreak")
                     control.current_direction = update_current_direction(control.current_gear,
                                                                          steering_change(steer_left, steer_right))
-                    if transmission == "AUTOMATIC":
-                        print ("Automatic")
-                        #when pressed  for x seconds forward increase by 1 up to 5
-                        #when pressed  for x seconds backward decrease by 1 up to -1
-                        #when nither key is pressed for x seconds decrease to 0
+                    if transmission == "MANUAL":
+                        print ("Manual") # this seemed to work?
+                        control.set_current_gear(
+                            update_current_gear(
+                                control.current_gear, acceleration_change(Gear_Up, Gear_Down)
+                            )
+                        )
 
+                    elif transmission == "AUTOMATIC":
+                        print ("Automatic")
                         if accelerate or break_reverse:
                             control.set_current_gear(
                                 update_current_gear(
                                     control.current_gear, acceleration_change(accelerate, break_reverse)
                                 )
                             )
-                            last_time_gear_pressed = time.time()
-                    if transmission == "MANUAL":
-                        print ("Manual")
-                        control.set_current_gear(
-                            update_current_gear(
-                                control.current_gear, acceleration_change(Gear_Up, Gear_Down)
-                            )
-                        )
-                    control.set_current_command()
+                            control.set_acceleration_timer()
+                    # this should work normally
+
+        diff = time.time() - control.acceleration_timer
+        #print diff
+        if diff > 1:
+            control.set_current_gear(
+                update_current_gear(
+                    control.current_gear, -1)
+            )
+
+        control.set_current_command()
+        control.set_acceleration_timer()
+        # check if anything changed and if it did send update
         if control.current_command != control.previous_command:
+            print ("previous command is: " + str(math.hex_to_int(control.previous_command)))  # send this command
             print ("current command is: " + str(math.hex_to_int(control.current_command)))  # send this command
             control.set_previous_command_as_current_command  # set previous command
             bt.send_command(control.current_command, 0.01)
-        else:
-            #pass  # no changes in commands so pass and wait for input
-            diff = time.time() - last_time_gear_pressed
-            print diff
-            if diff > 0.5:
-                control.set_current_gear(
-                    update_current_gear(
-                        control.current_gear, -1)
-                )
-                control.set_previous_command_as_current_command
-                bt.send_command(control.current_command, 0.01)
+        else: #if nothing changed
+            pass
 
-'''
-            print(transmission)
-            print(steer_left)
-            print(steer_right)
-            print(accelerate)
-            print(break_reverse)
-            print(hand_break)
-            print(NOS)
-            print(Gear_Up)
-            print(Gear_Down)
-            print(Cruise_Control)
-            print(Record_Movements_On)
-            print(Record_Movements_Off)
-            '''
-
-            #print counter
-            #counter+=1
 
 def are_keys_in_list(list_of_pressed, key_list):
 
@@ -200,48 +183,6 @@ def gear_change(Gear_Up, Gear_Down):
         return -1
     if (control.current_gear + change_to_gear) > 5:
         return 5
-
-
-
-'''
-##http://nullege.com/codes/search?cq=pygame.event.get
-def listen_for_input():
-    pygame.key.set_repeat(1, 125)
-    lookup_key = ord('w')
-    print lookup_key
-    while True: # run until quit
-        for event in pygame.event.get(): # for every event in queue
-            if event.type == (pygame.KEYDOWN or pygame.KEYDOWN): #if event type is keyboard key down or key up
-                pressed_list = pygame.key.get_pressed() #execure following
-                print (get_list_of_pressed(pressed_list))
-                #print pressed_list[lookup_key]
-                #if pressed_list[lookup_key]:
-                    #print("w was pressed - sleeping now for 5sec")
-            if event.type == (pygame.JOYBUTTONDOWN or pygame.JOYBUTTONUP): # if joystick button down or up
-                pass
-            if event.type == (pygame.JOYAXISMOTION or pygame.JOYBALLMOTION or pygame.JOYHATMOTION): # if joystick button down or up
-                pass
-
-def pygame_num_to_char(key_num):
-    key_name = pygame.key.name(key_num)
-    return key_name
-
-def pygame_char_to_num(key_name):
-    pass
-
-def get_list_of_pressed(pressed):
-
-    index = 0
-    list_of_pressed = []
-    list_of_pressed_chars = []
-    for value in pressed:
-        if (value != 0):
-            list_of_pressed.append(index)
-            list_of_pressed_chars.append(pygame_num_to_char(index))
-        index +=1
-    #return list_of_pressed
-    return list_of_pressed_chars
-'''
 
 
 

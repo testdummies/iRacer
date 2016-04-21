@@ -18,6 +18,21 @@ def checkMovements():
     #mv.turn_around_left()
     #mv.turn_around_right()
 
+
+    # save time for reference
+    # if hand break is on just stop
+    # else read for direction and gears
+    # manual gear change - gears stay same unless changed - cruise control like
+    # the way it was seemed to work fine?
+    # automatic gear change - gears increase and decrease automatically on repeat
+    # if accelerate or decelerate is on
+    # reset time for reference
+    # else:
+    # do nothing until
+    # if time for reference is > 0.5 sec
+    # decrease speed by 1 until 0
+    # reset time for reference
+
 #checkMovements()
 
 def check_pressed_keys_settings():

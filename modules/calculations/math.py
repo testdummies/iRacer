@@ -107,5 +107,7 @@ def get_speed_value(current_gear):
 def get_combined_value(current_direction, current_gear):
     direction_value = get_direction_value(current_direction)
     speed_value = get_speed_value(current_gear)
+    print direction_value
+    print speed_value
 
     return int_to_hex(direction_value+speed_value)
