@@ -69,7 +69,7 @@ def get_direction_value(current_direction):
 def get_speed_value(current_gear):
 
     speed = dict()
-    speed[-1] = 6   # slowest reliable speed reverse     - '\x00'
+    speed[-1] = 7   # slowest reliable speed reverse     - '\x00'
 
     speed[0] = 0    # no gear / stopped  - '\x00'
 
