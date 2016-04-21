@@ -134,4 +134,8 @@ def update_config_field(section, option, value):
     load_config()
 
 
+load_config()
+print_entire_config()
+
+
 
