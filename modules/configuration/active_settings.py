@@ -163,6 +163,7 @@ def print_entire_config():
 
 
 #TODO TESTING IF UPDATE CONFIG FIELD WORKS WITH CORRECTPATH[0]
+
 def update_config_field(section, option, value):
     config.set(section, option, value)
     with open(correctPath[0], 'w') as configfile:

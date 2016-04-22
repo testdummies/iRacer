@@ -205,6 +205,7 @@ if __name__ == "__main__":
         gm.run()
 
     connected = False
+    transmission = "AUTOMATIC"
 
     def connect():
         global connected
@@ -246,22 +247,33 @@ if __name__ == "__main__":
 
     def settings():
         menu_items = ('Change Settings', 'Restore Default Settings', 'Back')
-        funcs = {'Change Settings': open_settings,
+        funcs = {'Change Settings': change_settings,
                  'Restore Default Settings': restore_def_settings,
                  'Back': main_menu}
         pygame.display.set_caption('iRacer: Settings')
         gm = GameMenu(screen, menu_items, funcs)
         gm.run()
 
-    def open_settings():
+
+    def change_settings():
         #Instead of opening settings figure out how to do following...get settings menu from QT - and start it from different file
         #before doing anything
-        print ("opening settings")
-        if "linux" in sys.platform:
-            print "Inside Linux open editor"
-        elif "win" in sys.platform:
-            print "Inside Windows open editor"
-            os.system(st.correctPath[0])
+
+        menu_items = (transmission, 'Back')
+        funcs = {transmission: set_transmission,
+                 'Back': main_menu}
+        pygame.display.set_caption('iRacer: Settings')
+        gm = GameMenu(screen, menu_items, funcs)
+        gm.run()
+
+    def set_transmission():
+        global transmission
+        if transmission == "AUTOMATIC":
+            transmission = "MANUAL"
+        else:
+            transmission = "AUTOMATIC"
+        st.update_config_field('DRIVE_SETTINGS', 'Transmission', transmission)
+        change_settings()
 
     def restore_def_settings():
         print ("restoring default settings")
