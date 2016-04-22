@@ -179,6 +179,7 @@ if __name__ == "__main__":
     def open_settings():
         print ("opening settings")
         print os.name
+        print sys.platform
         #os.system('%s %s' % (os.getenv('EDITOR'), '../configuration/config.ini'))
 
     def restore_def_settings():
