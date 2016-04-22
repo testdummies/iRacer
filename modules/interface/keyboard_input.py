@@ -6,6 +6,7 @@ import modules.movement.control as control
 import modules.configuration.active_settings as st
 import modules.configuration.key_translation as kt
 import modules.bluetooth_controls.connection as bt
+import modules.movement.manoeuvres as mv
 
 pygame.init()
 pygame.display.set_mode((800, 600))
@@ -44,7 +45,16 @@ def check_active_keys():
                 Cruise_Control = are_keys_in_list(pressed_list, [st.KEYBOARD_Cruise_Control])
                 Record_Movements_On = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_On])
                 Record_Movements_Off = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_Off])
+                macro1 = are_keys_in_list(pressed_list, [st.KEYBOARD_MACRO1])
+                macro2 = are_keys_in_list(pressed_list, [st.KEYBOARD_MACRO2])
+                macro3 = are_keys_in_list(pressed_list, [st.KEYBOARD_MACRO3])
+                macro4 = are_keys_in_list(pressed_list, [st.KEYBOARD_MACRO4])
+                macro5 = are_keys_in_list(pressed_list, [st.KEYBOARD_MACRO5])
+                macro6 = are_keys_in_list(pressed_list, [st.KEYBOARD_MACRO6])
+                macro7 = are_keys_in_list(pressed_list, [st.KEYBOARD_MACRO7])
+                macro8 = are_keys_in_list(pressed_list, [st.KEYBOARD_MACRO8])
                 quit = are_keys_in_list(pressed_list, [st.KEYBOARD_quit])
+
 
                 if quit:
                     control.current_direction = "STOP"
@@ -52,11 +62,27 @@ def check_active_keys():
                     control.set_current_command()
                     bt.send_command(control.current_command, 0.01)
                     return
-                if hand_break:
+                elif hand_break:
                     control.current_direction = "STOP"
                     control.current_gear = 0
                     control.set_current_command()
                     bt.send_command(control.current_command, 0.01)
+                elif macro1:
+                    mv.circle_left()
+                elif macro2:
+                    mv.circle_right()
+                elif macro3:
+                    mv.parallel_parking_left_side()
+                elif macro4:
+                    mv.parallel_parking_right_side()
+                elif macro5:
+                    mv.three_point_turn_left()
+                elif macro6:
+                    mv.three_point_turn_right()
+                elif macro7:
+                    mv.turn_around_left()
+                elif macro8:
+                    mv.turn_around_right()
 
                 else:
                     control.current_direction = update_current_direction(control.current_gear,

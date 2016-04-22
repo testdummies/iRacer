@@ -210,8 +210,11 @@ if __name__ == "__main__":
         global connected
         try:
             st.load_config()
+            print ("config up")
             bt.initialise_bluetooth_settings()
+            print ("settings up")
             bt.connect_bluetooth()
+            print ("connecting")
             connected = True
         except:
             connected = False
@@ -242,8 +245,8 @@ if __name__ == "__main__":
         sys.exit()
 
     def settings():
-        menu_items = ('Open Settings File', 'Restore Default Settings', 'Back')
-        funcs = {'Open Settings File': open_settings,
+        menu_items = ('Change Settings', 'Restore Default Settings', 'Back')
+        funcs = {'Change Settings': open_settings,
                  'Restore Default Settings': restore_def_settings,
                  'Back': main_menu}
         pygame.display.set_caption('iRacer: Settings')

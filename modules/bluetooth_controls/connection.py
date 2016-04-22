@@ -24,7 +24,7 @@ def initialise_bluetooth_settings():
 
     print ("\n")
     st.load_config()
-    print ("loading config file")
+    print ("Loading config file.")
     mac_address = st.MAC_ADDRESS
     print ("Setting up mac address as: " + mac_address)
     port_number = st.BLUETOOTH_CHANNEL
