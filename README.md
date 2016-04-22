@@ -6,5 +6,5 @@ TO DO:
 - controller input
 - user input
 - Change Menu item Toggle/ON OFF for AUTOMATIC MANUAL
-- implement all actions fro settings
+- implement all actions from settings (maneouvres)
 - help page? menu?

@@ -188,21 +188,6 @@ if __name__ == "__main__":
         url = "file://"+os.path.dirname(os.path.realpath(__file__))+"/help.html"
         print (url)
         webbrowser.open(url, new=2)
-        '''
-        page = urllib.urlopen("help.html").read()
-        print page
-        '''
-        new = 2  # open in a new tab, if possible
-        '''
-        # open a public URL, in this case, the webbrowser docs
-        url = "http://docs.python.org/library/webbrowser.html"
-        webbrowser.open(url, new=new)
-
-        # open an HTML file on my own (Windows) computer
-        url = "file://X:/MiscDev/language_links.html"
-        webbrowser.open(url, new=new)
-        '''
-
 
     def start():
         if connected:

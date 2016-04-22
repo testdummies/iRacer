@@ -35,6 +35,14 @@ KEYBOARD_Gear_Down = ""
 KEYBOARD_Cruise_Control = ""
 KEYBOARD_Record_Movements_On = ""
 KEYBOARD_Record_Movements_Off = ""
+KEYBOARD_MACRO1 = ""
+KEYBOARD_MACRO2 = ""
+KEYBOARD_MACRO3 = ""
+KEYBOARD_MACRO4 = ""
+KEYBOARD_MACRO5 = ""
+KEYBOARD_MACRO6 = ""
+KEYBOARD_MACRO7 = ""
+KEYBOARD_MACRO8 = ""
 KEYBOARD_quit = ""
 
 # [CONTROLLER_MAPPING]
@@ -58,6 +66,8 @@ def load_config():
     global CONTROLLER_Steer_Left, CONTROLLER_Steer_Right, CONTROLLER_Accelerate, CONTROLLER_Break_Reverse, CONTROLLER_Hand_Break
     global CONTROLLER_NOS, CONTROLLER_Gear_Up, CONTROLLER_Gear_Down, CONTROLLER_Cruise_Control, CONTROLLER_Record_Movements_On
     global CONTROLLER_Record_Movements_On, CONTROLLER_Record_Movements_Off, KEYBOARD_quit
+    global KEYBOARD_MACRO1, KEYBOARD_MACRO2, KEYBOARD_MACRO3, KEYBOARD_MACRO4
+    global KEYBOARD_MACRO5, KEYBOARD_MACRO6, KEYBOARD_MACRO7, KEYBOARD_MACRO8
 
 
     config.read(correctPath[0])
@@ -81,6 +91,14 @@ def load_config():
     KEYBOARD_Cruise_Control         = config.get('KEYBOARD_MAPPING', 'Cruise Control')
     KEYBOARD_Record_Movements_On    = config.get('KEYBOARD_MAPPING', 'Record Movements On')
     KEYBOARD_Record_Movements_Off   = config.get('KEYBOARD_MAPPING', 'Record Movements Off')
+    KEYBOARD_MACRO1                 = config.get('KEYBOARD_MAPPING', 'MACRO1')
+    KEYBOARD_MACRO2                 = config.get('KEYBOARD_MAPPING', 'MACRO2')
+    KEYBOARD_MACRO3                 = config.get('KEYBOARD_MAPPING', 'MACRO3')
+    KEYBOARD_MACRO4                 = config.get('KEYBOARD_MAPPING', 'MACRO4')
+    KEYBOARD_MACRO5                 = config.get('KEYBOARD_MAPPING', 'MACRO5')
+    KEYBOARD_MACRO6                 = config.get('KEYBOARD_MAPPING', 'MACRO6')
+    KEYBOARD_MACRO7                 = config.get('KEYBOARD_MAPPING', 'MACRO7')
+    KEYBOARD_MACRO8                 = config.get('KEYBOARD_MAPPING', 'MACRO8')
     KEYBOARD_quit                   = config.get('KEYBOARD_MAPPING', 'QUIT')
 
     #[CONTROLLER_MAPPING]
