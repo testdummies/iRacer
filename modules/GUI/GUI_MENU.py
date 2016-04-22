@@ -4,6 +4,7 @@
 import sys
 import pygame
 import os
+import modules.configuration.active_settings as st
 from shutil import copyfile
 pygame.init()
  
@@ -177,12 +178,14 @@ if __name__ == "__main__":
         gm.run()
 
     def open_settings():
+        #Instead of opening settings figure out how to do following...get settings menu from QT - and start it from different file
+        #before doing anything
         print ("opening settings")
         if "linux" in sys.platform:
             print "Inside Linux open editor"
         elif "win" in sys.platform:
             print "Inside Windows open editor"
-        #os.system('%s %s' % (os.getenv('EDITOR'), '../configuration/config.ini'))
+            os.system(st.correctPath[0])
 
     def restore_def_settings():
         print ("restoring default settings")

@@ -44,7 +44,14 @@ def check_active_keys():
                 Cruise_Control = are_keys_in_list(pressed_list, [st.KEYBOARD_Cruise_Control])
                 Record_Movements_On = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_On])
                 Record_Movements_Off = are_keys_in_list(pressed_list, [st.KEYBOARD_Record_Movements_Off])
+                quit = are_keys_in_list(pressed_list, [st.KEYBOARD_quit])
 
+                if quit:
+                    control.current_direction = "STOP"
+                    control.current_gear = 0
+                    control.set_current_command()
+                    bt.send_command(control.current_command, 0.01)
+                    return
                 if hand_break:
                     control.current_direction = "STOP"
                     control.current_gear = 0

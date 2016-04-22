@@ -35,6 +35,7 @@ KEYBOARD_Gear_Down = ""
 KEYBOARD_Cruise_Control = ""
 KEYBOARD_Record_Movements_On = ""
 KEYBOARD_Record_Movements_Off = ""
+KEYBOARD_quit = ""
 
 # [CONTROLLER_MAPPING]
 CONTROLLER_Steer_Left = ""
@@ -56,7 +57,8 @@ def load_config():
     global KEYBOARD_Gear_Down, KEYBOARD_Cruise_Control, KEYBOARD_Record_Movements_On, KEYBOARD_Record_Movements_Off
     global CONTROLLER_Steer_Left, CONTROLLER_Steer_Right, CONTROLLER_Accelerate, CONTROLLER_Break_Reverse, CONTROLLER_Hand_Break
     global CONTROLLER_NOS, CONTROLLER_Gear_Up, CONTROLLER_Gear_Down, CONTROLLER_Cruise_Control, CONTROLLER_Record_Movements_On
-    global CONTROLLER_Record_Movements_On, CONTROLLER_Record_Movements_Off
+    global CONTROLLER_Record_Movements_On, CONTROLLER_Record_Movements_Off, KEYBOARD_quit
+
 
     config.read(correctPath[0])
 
@@ -79,6 +81,7 @@ def load_config():
     KEYBOARD_Cruise_Control         = config.get('KEYBOARD_MAPPING', 'Cruise Control')
     KEYBOARD_Record_Movements_On    = config.get('KEYBOARD_MAPPING', 'Record Movements On')
     KEYBOARD_Record_Movements_Off   = config.get('KEYBOARD_MAPPING', 'Record Movements Off')
+    KEYBOARD_quit                   = config.get('KEYBOARD_MAPPING', 'QUIT')
 
     #[CONTROLLER_MAPPING]
     CONTROLLER_Steer_Left             = config.get('CONTROLLER_MAPPING', 'Steer Left')
@@ -92,6 +95,9 @@ def load_config():
     CONTROLLER_Cruise_Control         = config.get('CONTROLLER_MAPPING', 'Cruise Control')
     CONTROLLER_Record_Movements_On    = config.get('CONTROLLER_MAPPING', 'Record Movements On')
     CONTROLLER_Record_Movements_Off   = config.get('CONTROLLER_MAPPING', 'Record Movements Off')
+
+    #print_entire_config()
+
 
 def print_entire_config():
     # [DEVICE SETTINGS]
@@ -113,6 +119,8 @@ def print_entire_config():
     print (KEYBOARD_Cruise_Control)
     print (KEYBOARD_Record_Movements_On)
     print (KEYBOARD_Record_Movements_Off)
+    print (KEYBOARD_quit)
+
 
     # [print (CONTROLLER_MAPPING]
     print (CONTROLLER_Steer_Left)
