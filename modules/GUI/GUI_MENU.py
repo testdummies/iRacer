@@ -189,5 +189,5 @@ if __name__ == "__main__":
         copyfile('../configuration/config_default.ini','../configuration/config.ini')
  
     # Creating the screen
-    screen = pygame.display.set_mode((640, 480), 0, 32)
+    screen = pygame.display.set_mode((350, 480), 0, 32)
     main_menu()
