@@ -126,18 +126,26 @@ def print_entire_config():
     print (Transmission)
 
     # [print (KEYBOARD_MAPPING]
-    print (KEYBOARD_Steer_Left)
-    print (KEYBOARD_Steer_Right)
-    print (KEYBOARD_Accelerate)
-    print (KEYBOARD_Break_Reverse)
-    print (KEYBOARD_Hand_Break)
-    print (KEYBOARD_NOS)
-    print (KEYBOARD_Gear_Up)
-    print (KEYBOARD_Gear_Down)
-    print (KEYBOARD_Cruise_Control)
-    print (KEYBOARD_Record_Movements_On)
-    print (KEYBOARD_Record_Movements_Off)
-    print (KEYBOARD_quit)
+    print ("KEYBOARD_Steer_Left             "+KEYBOARD_Steer_Left)
+    print ("KEYBOARD_Steer_Right            "+KEYBOARD_Steer_Right)
+    print ("KEYBOARD_Accelerate             "+KEYBOARD_Accelerate)
+    print ("KEYBOARD_Break_Reverse          "+KEYBOARD_Break_Reverse)
+    print ("KEYBOARD_Hand_Break             "+KEYBOARD_Hand_Break)
+    print ("KEYBOARD_NOS                    "+KEYBOARD_NOS)
+    print ("KEYBOARD_Gear_Up                "+KEYBOARD_Gear_Up)
+    print ("KEYBOARD_Gear_Down              "+KEYBOARD_Gear_Down)
+    print ("KEYBOARD_Cruise_Control         "+KEYBOARD_Cruise_Control)
+    print ("KEYBOARD_Record_Movements_On    "+KEYBOARD_Record_Movements_On)
+    print ("KEYBOARD_Record_Movements_Off   "+KEYBOARD_Record_Movements_Off)
+    print ("KEYBOARD_MACRO1                 "+KEYBOARD_MACRO1)
+    print ("KEYBOARD_MACRO2                 "+KEYBOARD_MACRO2)
+    print ("KEYBOARD_MACRO3                 "+KEYBOARD_MACRO3)
+    print ("KEYBOARD_MACRO4                 "+KEYBOARD_MACRO4)
+    print ("KEYBOARD_MACRO5                 "+KEYBOARD_MACRO5)
+    print ("KEYBOARD_MACRO6                 "+KEYBOARD_MACRO6)
+    print ("KEYBOARD_MACRO7                 "+KEYBOARD_MACRO7)
+    print ("KEYBOARD_MACRO8                 "+KEYBOARD_MACRO8)
+    print ("KEYBOARD_quit                   "+KEYBOARD_quit)
 
 
     # [print (CONTROLLER_MAPPING]
@@ -160,7 +168,6 @@ def update_config_field(section, option, value):
     with open(correctPath[0], 'w') as configfile:
         config.write(configfile)
     load_config()
-
 
 
 
