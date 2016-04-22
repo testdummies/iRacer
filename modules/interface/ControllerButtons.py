@@ -71,6 +71,9 @@ while True:
 					print 'left stick down'
 				if -0.5 >= pos:
 					print 'left stick up'
+
+			if event.axis == 3 and event.axis == 4:
+				print ("inside both axis")
 			# right thumbstick x axis
 			if event.axis == 3:
 				pos = event.value
@@ -102,16 +105,28 @@ while True:
 				hat = event.value
 				# checks the first value in the tuple
 				if hat[0] == 1:
-					print '1'
-					print("event value axis 0: {}".format(hat)) 
+					print 'hatright'
+					print("event value axis 0: {}".format(hat))
+				if hat[0] == -1:
+					print 'hatleft'
+					print("event value axis 0: {}".format(hat))
 
-		# triggered when any of the keyboard keys are pressed. event.key returned as an ASCII value. 
+				if hat[1] == 1:
+					print 'hatup'
+					print("event value axis 0: {}".format(hat))
+
+				if hat[1] == -1:
+					print 'hatdown'
+					print("event value axis 0: {}".format(hat))
+
+							# triggered when any of the keyboard keys are pressed. event.key returned as an ASCII value.
 		# chr(value) gets the actual key pressed eg A
+'''
 		elif event.type == pygame.KEYDOWN:
 				keyPressed = event.key
 				print 'key pressed {0}'.format(chr(keyPressed))
 				# check for a specific key (Esc)
 				if event.key == pygame.K_ESCAPE:
 					sys.exit()
-
+'''
 

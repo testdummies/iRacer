@@ -1,5 +1,4 @@
 # TODO THIS SECTION
-import os
 import time
 import pygame
 import modules.movement.control as control
@@ -10,6 +9,8 @@ import modules.movement.manoeuvres as mv
 
 pygame.init()
 pygame.display.set_mode((800, 600))
+Joy0 = pygame.joystick.Joystick(0)
+Joy0.init()
 
 
 def check_active_keys():
@@ -32,7 +33,8 @@ def check_active_keys():
                 pass
                 # pass as those events are not what we are looking for
 
-            else:
+            if event.type ==pygame.KEYUP \
+                    or event.type == pygame.KEYDOWN:
                 pressed_list = pygame.key.get_pressed()  # execute following
                 steer_left = are_keys_in_list(pressed_list, [st.KEYBOARD_Steer_Left])
                 steer_right = are_keys_in_list(pressed_list, [st.KEYBOARD_Steer_Right])
@@ -109,6 +111,32 @@ def check_active_keys():
                             control.set_acceleration_timer()
                         else:
                             control.set_acceleration_gear_count(-100)
+            if event.type == pygame.JOYHATMOTION:
+                hat = event.value
+                steer_left = are_hats_in_list(hat[0], st.CONTROLLER_Steer_Left)
+                steer_right = are_hats_in_list(hat[0], st.CONTROLLER_Steer_Right)
+                accelerate = are_hats_in_list(hat[1], st.CONTROLLER_Accelerate)
+                break_reverse = are_hats_in_list(hat[1], st.CONTROLLER_Break_Reverse)
+
+                control.current_direction = update_current_direction(control.current_gear,
+                                                                     steering_change(steer_left, steer_right))
+                if accelerate or break_reverse:
+                    acc = acceleration_change(accelerate, break_reverse)
+                    control.set_acceleration_gear_count(acc)
+                    if control.acceleration_gear_count % 10 == 0:
+                        print control.acceleration_gear_count
+                        control.set_current_gear(
+                            update_current_gear(
+                                control.current_gear, acceleration_change(accelerate, break_reverse)
+                            )
+                        )
+                    else:
+                        pass
+                    control.set_acceleration_timer()
+                else:
+                    control.set_acceleration_gear_count(-100)
+
+
             #print ("current gear "+str(control.current_gear))
             #print ("gear count "+str(control.acceleration_gear_count))
             control.set_current_command()
@@ -157,6 +185,15 @@ def are_keys_in_list(list_of_pressed, key_list):
 
     for key in key_list:
         if list_of_pressed[kt.get_key_number(key)]:
+            return True
+    return False
+
+def are_hats_in_list(hat_pos, key):
+    tmpkey = int(key)
+    tmphat = int(hat_pos)
+    print type(key)
+    print type(hat_pos)
+    if tmpkey == tmphat:
             return True
     return False
 
