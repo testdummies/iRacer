@@ -185,13 +185,13 @@ if __name__ == "__main__":
     def connect():
         global connected
         try:
-            print ("trying to connect")
+            #print ("trying to connect")
             st.load_config()
-            print ("loading config")
+            #print ("loading config")
             bt.initialise_bluetooth_settings()
-            print ("initialise bluetooth")
+            #print ("initialise bluetooth")
             bt.connect_bluetooth()
-            print ("connecting")
+            #print ("connecting")
             connected = True
         except:
             connected =  False

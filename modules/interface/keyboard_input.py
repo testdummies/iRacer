@@ -83,8 +83,8 @@ def check_active_keys():
                             control.set_acceleration_timer()
                         else:
                             control.set_acceleration_gear_count(-100)
-            print ("current gear "+str(control.current_gear))
-            print ("gear count "+str(control.acceleration_gear_count))
+            #print ("current gear "+str(control.current_gear))
+            #print ("gear count "+str(control.acceleration_gear_count))
             control.set_current_command()
             if transmission == "AUTOMATIC" and check_time():
                 control.set_current_command()
