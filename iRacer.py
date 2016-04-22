@@ -8,6 +8,7 @@ import modules.configuration.active_settings as st
 from shutil import copyfile
 import modules.bluetooth_controls.connection as bt
 import modules.interface.keyboard_input as key
+import webbrowser
 
 pygame.init()
  
@@ -159,9 +160,10 @@ class GameMenu():
  
 if __name__ == "__main__":
     def main_menu():
-        menu_items = ('Start', 'Settings', 'Quit')
+        menu_items = ('Start', 'Settings','Help', 'Quit')
         funcs = {'Start': start,
                  'Settings': settings,
+                 'Help': help_page,
                  'Quit': quit_app}
 
         pygame.display.set_caption('iRacer: Main Menu')
@@ -169,8 +171,44 @@ if __name__ == "__main__":
         gm = GameMenu(screen, menu_items, funcs)
         gm.run()
 
+    def help_page():
+        print ("display help")
+
+        menu_items = ('Open Help Page', 'Back')
+        funcs = {'Open Help Page': load_help_page,
+                 'Back': main_menu
+                 }
+
+        pygame.display.set_caption('iRacer: Start')
+        # gm = GameMenu(screen,funcs.keys(), funcs) # gives wrong order from function keys
+        gm = GameMenu(screen, menu_items, funcs)
+        gm.run()
+
+    def load_help_page():
+        url = "file://"+os.path.dirname(os.path.realpath(__file__))+"/help.html"
+        print (url)
+        webbrowser.open(url, new=2)
+        '''
+        page = urllib.urlopen("help.html").read()
+        print page
+        '''
+        new = 2  # open in a new tab, if possible
+        '''
+        # open a public URL, in this case, the webbrowser docs
+        url = "http://docs.python.org/library/webbrowser.html"
+        webbrowser.open(url, new=new)
+
+        # open an HTML file on my own (Windows) computer
+        url = "file://X:/MiscDev/language_links.html"
+        webbrowser.open(url, new=new)
+        '''
+
+
     def start():
-        menu_items = ('Connect', 'Disconnect', 'Control', 'Back')
+        if connected:
+            menu_items = ('Disconnect', 'Control', 'Back')
+        else:
+            menu_items = ('Connect', 'Back')
         funcs = {'Connect': connect,
                  'Disconnect': disconnect,
                  'Control': control,
@@ -182,19 +220,17 @@ if __name__ == "__main__":
         gm.run()
 
     connected = False
+
     def connect():
         global connected
         try:
-            #print ("trying to connect")
             st.load_config()
-            #print ("loading config")
             bt.initialise_bluetooth_settings()
-            #print ("initialise bluetooth")
             bt.connect_bluetooth()
-            #print ("connecting")
             connected = True
         except:
-            connected =  False
+            connected = False
+        start()
 
     def disconnect():
         global connected
@@ -206,8 +242,7 @@ if __name__ == "__main__":
                 connected = True
         else:
             pass
-
-
+        start()
 
     def control():
         if connected:
@@ -215,7 +250,10 @@ if __name__ == "__main__":
         else:
             pass
     def quit_app():
-        disconnect()
+        try:
+            bt.disconnect_bluetooth()
+        except:
+            pass
         sys.exit()
 
     def settings():
