@@ -9,8 +9,8 @@ import modules.movement.manoeuvres as mv
 
 pygame.init()
 pygame.display.set_mode((800, 600))
-Joy0 = pygame.joystick.Joystick(0)
-Joy0.init()
+#Joy0 = pygame.joystick.Joystick(0)
+#Joy0.init()
 
 
 def check_active_keys():
